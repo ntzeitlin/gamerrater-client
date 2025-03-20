@@ -1,53 +1,53 @@
-import { Link } from "react-router-dom";
-import "./NavBar.css";
+import { TabNav } from "@radix-ui/themes";
+import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 export const NavBar = ({ currentUser }) => {
     const navigate = useNavigate();
+    const location = useLocation();
 
     return (
-        <ul className="navbar">
-            <li className="navbar-item">
-                <Link to="/" className="navbar-link">
-                    All Posts
-                </Link>
-            </li>
-            <li className="navbar-item">
-                <Link to="/posts/mine" className="navbar-link">
-                    My Posts
-                </Link>
-            </li>
-            <li className="navbar-item">
-                <Link to="/posts/favorite" className="navbar-link">
-                    Favorite
-                </Link>
-            </li>
-            <li className="navbar-item">
-                <Link to="/posts/new" className="navbar-link">
-                    New Post
-                </Link>
-            </li>
-            <li className="navbar-item">
-                <Link to={`/profile/${currentUser.id}`} className="navbar-link">
-                    Profile
-                </Link>
-            </li>
-            {localStorage.getItem("learning_user") ? (
-                <li className="navbar-item navbar-logout">
+        <TabNav.Root justify="center">
+            <TabNav.Link asChild active={location.pathname === "/"}>
+                <Link to="/">All Games</Link>
+            </TabNav.Link>
+            <TabNav.Link asChild>
+                {localStorage.getItem("gamer_rater_user") ? (
                     <Link
-                        to=""
-                        className="navbar-link"
                         onClick={() => {
-                            localStorage.removeItem("learning_user");
+                            localStorage.removeItem("gamer_rater_user");
                             navigate("/login", { replace: true });
                         }}
                     >
                         Logout
                     </Link>
-                </li>
-            ) : (
-                ""
-            )}
-        </ul>
+                ) : (
+                    ""
+                )}
+            </TabNav.Link>
+        </TabNav.Root>
+        // <ul className="navbar">
+        //     <li className="navbar-item">
+        //         <Link to="/" className="navbar-link">
+        //             All Games
+        //         </Link>
+        //     </li>
+        //     {localStorage.getItem("gamer_rater_user") ? (
+        //         <li className="navbar-item navbar-logout">
+        //             <Link
+        //                 to=""
+        //                 className="navbar-link"
+        //                 onClick={() => {
+        //                     localStorage.removeItem("gamer_rater_user");
+        //                     navigate("/login", { replace: true });
+        //                 }}
+        //             >
+        //                 Logout
+        //             </Link>
+        //         </li>
+        //     ) : (
+        //         ""
+        //     )}
+        // </ul>
     );
 };
