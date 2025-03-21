@@ -85,8 +85,9 @@ export const NewGameForm = () => {
                                 copy.categories = [parseInt(e.target.value)];
                                 setGame(copy);
                             }}
+                            defaultValue={0}
                         >
-                            <option value="" disabled selected>
+                            <option value={0} disabled>
                                 Select a Category
                             </option>
                             {allCategories.map((category) => (
