@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Route, Routes, Outlet } from "react-router-dom";
 import { NavBar } from "../components/nav/NavBar";
-import { AllGames } from "../components/AllGames";
+import { AllGames } from "../components/games/AllGames";
+import { GameDetail } from "../components/games/gameDetail";
 
 export const ApplicationViews = () => {
     const [currentUser, setCurrentUser] = useState("");
@@ -18,12 +19,21 @@ export const ApplicationViews = () => {
                 element={
                     <>
                         <NavBar />
-                        {/* <div>Current User Token: {currentUser}</div> */}
+                        <div>Current User Token: {currentUser}</div>
                         <Outlet />
                     </>
                 }
             >
-                <Route index element={<AllGames userToken={currentUser} />} />
+                <Route path="games">
+                    <Route
+                        index
+                        element={<AllGames userToken={currentUser} />}
+                    />
+                    <Route
+                        path=":gameId"
+                        element={<GameDetail userToken={currentUser} />}
+                    />
+                </Route>
             </Route>
         </Routes>
     );
