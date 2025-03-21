@@ -4,6 +4,7 @@ import { NavBar } from "../components/nav/NavBar";
 import { AllGames } from "../components/games/AllGames";
 import { GameDetail } from "../components/games/gameDetail";
 import { NewGameForm } from "../components/games/NewGameForm";
+import { ReviewForm } from "../components/reviews/ReviewForm";
 
 export const ApplicationViews = () => {
     const [currentUser, setCurrentUser] = useState("");
@@ -22,7 +23,6 @@ export const ApplicationViews = () => {
                 element={
                     <>
                         <NavBar />
-                        <div>Current User Token: {currentUser}</div>
                         <Outlet />
                     </>
                 }
@@ -32,10 +32,13 @@ export const ApplicationViews = () => {
                         index
                         element={<AllGames userToken={currentUser} />}
                     />
-                    <Route
-                        path=":gameId"
-                        element={<GameDetail userToken={currentUser} />}
-                    />
+                    <Route path=":gameId">
+                        <Route
+                            index
+                            element={<GameDetail userToken={currentUser} />}
+                        />
+                        <Route path="review" element={<ReviewForm />} />
+                    </Route>
                     <Route path="new" element={<NewGameForm />} />
                 </Route>
             </Route>

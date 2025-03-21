@@ -8,14 +8,19 @@ export const AllGames = ({ userToken }) => {
 
     useEffect(() => {
         if (userToken) {
-            getAllGames(userToken).then((data) => {
-                setGameList(data);
-            });
+            fetchAndSetGames();
         }
     }, [userToken]);
+
+    const fetchAndSetGames = () => {
+        getAllGames(userToken).then((data) => {
+            setGameList(data);
+        });
+    };
     return (
         <Section>
             <Container>
+                <Heading>Games:</Heading>
                 {gameList?.map((game) => (
                     <Card key={game.id} m="3">
                         <Box>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getGameDetail } from "../../services/gameService";
 import {
     Box,
+    Button,
     Card,
     Container,
     Grid,
@@ -9,11 +10,12 @@ import {
     Section,
     Text,
 } from "@radix-ui/themes";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const GameDetail = () => {
     const [gameDetail, setGameDetail] = useState([]);
 
+    const navigate = useNavigate();
     const { gameId } = useParams();
 
     useEffect(() => {
@@ -26,11 +28,12 @@ export const GameDetail = () => {
                 setGameDetail(data);
             });
         }
-    }, []);
+    }, [gameId]);
 
     return (
         <Section>
             <Container>
+                <Heading>Game:</Heading>
                 <Card key={gameDetail?.id} m="3">
                     <Grid columns="2">
                         <Box>
@@ -61,7 +64,15 @@ export const GameDetail = () => {
                             </Text>
                         </Box>
                     </Grid>
+                    <Button
+                        onClick={() => {
+                            navigate("review");
+                        }}
+                    >
+                        Review Game
+                    </Button>
                 </Card>
+                <Heading>Reviews:</Heading>
             </Container>
         </Section>
     );

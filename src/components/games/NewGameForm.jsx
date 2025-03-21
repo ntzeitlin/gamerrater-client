@@ -40,7 +40,7 @@ export const NewGameForm = () => {
     const createGame = async (evt) => {
         evt.preventDefault();
 
-        const response = await fetch("http://localhost:8000/games", {
+        await fetch("http://localhost:8000/games", {
             method: "POST",
             headers: {
                 Authorization: `Token ${
@@ -51,9 +51,7 @@ export const NewGameForm = () => {
             body: JSON.stringify(game),
         });
 
-        const data = await response.json();
-
-        navigate(`/games/${data.id}`);
+        navigate(`/games`);
     };
 
     return (
@@ -166,9 +164,9 @@ export const NewGameForm = () => {
                     </fieldset>
                     <fieldset>
                         <label>Description:</label>
-                        <input
+                        <textarea
                             id="gamedescription"
-                            type="textfield"
+                            type="text"
                             onChange={(e) => {
                                 const copy = { ...game };
                                 copy.description = e.target.value;
