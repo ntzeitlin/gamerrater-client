@@ -69,13 +69,22 @@ export const GameDetail = () => {
                             </Text>
                         </Box>
                     </Grid>
-                    <Button
-                        onClick={() => {
-                            navigate("review", { state: gameDetail.title });
-                        }}
-                    >
-                        Review Game
-                    </Button>
+                    <Box>
+                        <Button
+                            onClick={() => {
+                                navigate("review", { state: gameDetail.title });
+                            }}
+                        >
+                            Review Game
+                        </Button>
+                        {gameDetail.is_owner ? (
+                            <Button ml="2" color="red">
+                                Edit Me
+                            </Button>
+                        ) : (
+                            ""
+                        )}
+                    </Box>
                 </Card>
                 <Heading>Reviews:</Heading>
                 {gameReviews.map((review) => (
