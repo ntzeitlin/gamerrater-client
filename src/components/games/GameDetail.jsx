@@ -11,9 +11,11 @@ import {
     Text,
 } from "@radix-ui/themes";
 import { useNavigate, useParams } from "react-router-dom";
+import { getReviewsByGameId } from "../../services/reviewService";
 
 export const GameDetail = () => {
     const [gameDetail, setGameDetail] = useState([]);
+    const [gameReviews, setGameReviews] = useState([]);
 
     const navigate = useNavigate();
     const { gameId } = useParams();
@@ -26,6 +28,9 @@ export const GameDetail = () => {
         if (userToken && gameId) {
             getGameDetail(userToken, gameId).then((data) => {
                 setGameDetail(data);
+            });
+            getReviewsByGameId(userToken, gameId).then((data) => {
+                setGameReviews(data);
             });
         }
     }, [gameId]);
@@ -73,6 +78,9 @@ export const GameDetail = () => {
                     </Button>
                 </Card>
                 <Heading>Reviews:</Heading>
+                {gameReviews.map((review) => (
+                    <Card m="3">{review.comment}</Card>
+                ))}
             </Container>
         </Section>
     );
