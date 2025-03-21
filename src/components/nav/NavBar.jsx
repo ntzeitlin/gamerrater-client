@@ -7,9 +7,12 @@ export const NavBar = () => {
     const location = useLocation();
 
     return (
-        <TabNav.Root justify="center">
+        <TabNav.Root>
             <TabNav.Link asChild active={location.pathname === "/games"}>
                 <Link to="/games">Games</Link>
+            </TabNav.Link>
+            <TabNav.Link asChild active={location.pathname === "/games/new"}>
+                <Link to="/games/new">Register New Game</Link>
             </TabNav.Link>
             <TabNav.Link asChild>
                 {localStorage.getItem("gamer_rater_user") ? (

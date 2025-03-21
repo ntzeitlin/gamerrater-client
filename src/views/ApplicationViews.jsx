@@ -3,12 +3,15 @@ import { Route, Routes, Outlet } from "react-router-dom";
 import { NavBar } from "../components/nav/NavBar";
 import { AllGames } from "../components/games/AllGames";
 import { GameDetail } from "../components/games/gameDetail";
+import { NewGameForm } from "../components/games/NewGameForm";
 
 export const ApplicationViews = () => {
     const [currentUser, setCurrentUser] = useState("");
 
     useEffect(() => {
-        const localGamerRaterUser = localStorage?.getItem("gamer_rater_user");
+        const localGamerRaterUser = JSON.parse(
+            localStorage.getItem("gamer_rater_user")
+        ).token;
         setCurrentUser(localGamerRaterUser);
     }, []);
 
@@ -33,6 +36,7 @@ export const ApplicationViews = () => {
                         path=":gameId"
                         element={<GameDetail userToken={currentUser} />}
                     />
+                    <Route path="new" element={<NewGameForm />} />
                 </Route>
             </Route>
         </Routes>

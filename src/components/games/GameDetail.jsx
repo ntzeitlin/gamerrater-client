@@ -52,7 +52,12 @@ export const GameDetail = ({ userToken }) => {
                             <Text as="p">
                                 Recommended Age: {gameDetail?.recommended_age}
                             </Text>
-                            <Text>Categories: {gameDetail?.categories}</Text>
+                            <Text>
+                                Categories:{" "}
+                                {gameDetail?.categories
+                                    ?.map((category) => category.label)
+                                    .join(", ")}
+                            </Text>
                         </Box>
                     </Grid>
                 </Card>
