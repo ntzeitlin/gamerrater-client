@@ -79,7 +79,15 @@ export const GameDetail = () => {
                 </Card>
                 <Heading>Reviews:</Heading>
                 {gameReviews.map((review) => (
-                    <Card m="3">{review.comment}</Card>
+                    <Card m="3">
+                        <Text as="p">
+                            "{review.comment}" | {review.rating} / 10
+                        </Text>
+                        <Text as="p">
+                            {"  "} -- {review.user.first_name}{" "}
+                            {review.user.last_name}{" "}
+                        </Text>
+                    </Card>
                 ))}
             </Container>
         </Section>
