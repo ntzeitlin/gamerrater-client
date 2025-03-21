@@ -71,7 +71,7 @@ export const GameDetail = () => {
                     </Grid>
                     <Button
                         onClick={() => {
-                            navigate("review");
+                            navigate("review", { state: gameDetail.title });
                         }}
                     >
                         Review Game
@@ -79,7 +79,7 @@ export const GameDetail = () => {
                 </Card>
                 <Heading>Reviews:</Heading>
                 {gameReviews.map((review) => (
-                    <Card m="3">
+                    <Card m="3" key={review.id}>
                         <Text as="p">
                             "{review.comment}" | {review.rating} / 10
                         </Text>

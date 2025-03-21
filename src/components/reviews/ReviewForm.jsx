@@ -1,10 +1,11 @@
 import { Container, Heading, Section } from "@radix-ui/themes";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 export const ReviewForm = () => {
     const { gameId } = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const initialReviewState = {
         game: gameId,
@@ -13,6 +14,11 @@ export const ReviewForm = () => {
     };
 
     const [review, setReview] = useState(initialReviewState);
+    const [gameTitle, setGameTitle] = useState("");
+
+    useEffect(() => {
+        setGameTitle(location.state);
+    }, [location]);
 
     const submitReview = async (evt) => {
         evt.preventDefault();
@@ -35,12 +41,18 @@ export const ReviewForm = () => {
         <Section>
             <Container>
                 <form onSubmit={() => {}}>
-                    <Heading>Review Game</Heading>
+                    <Heading>
+                        Reviewing {gameTitle ? gameTitle : "Game"}
+                    </Heading>
                     <fieldset>
                         <label>Rating:</label>
                         <input
                             id="gamerating"
                             type="number"
+                            min="0"
+                            max="10"
+                            step="1"
+                            required
                             onChange={(e) => {
                                 const copy = { ...review };
                                 copy.rating = e.target.value;
