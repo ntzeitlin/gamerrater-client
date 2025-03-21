@@ -11,15 +11,16 @@ import {
 } from "@radix-ui/themes";
 import { useParams } from "react-router-dom";
 
-export const GameDetail = ({ userToken }) => {
+export const GameDetail = () => {
     const [gameDetail, setGameDetail] = useState([]);
 
     const { gameId } = useParams();
 
-    // QUESTION: Should I be grabbing the userToken in each view?
-    // Currently, when page is refreshed, data disappears.
-
     useEffect(() => {
+        const userToken = JSON.parse(
+            localStorage.getItem("gamer_rater_user")
+        ).token;
+
         if (userToken && gameId) {
             getGameDetail(userToken, gameId).then((data) => {
                 setGameDetail(data);
