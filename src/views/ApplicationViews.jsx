@@ -1,21 +1,12 @@
-import { useEffect, useState } from "react";
 import { Route, Routes, Outlet } from "react-router-dom";
 import { NavBar } from "../components/nav/NavBar";
 import { AllGames } from "../components/games/AllGames";
 import { GameDetail } from "../components/games/gameDetail";
 import { NewGameForm } from "../components/games/NewGameForm";
 import { ReviewForm } from "../components/reviews/ReviewForm";
+import { EditGameForm } from "../components/games/EditGameForm";
 
 export const ApplicationViews = () => {
-    const [currentUser, setCurrentUser] = useState("");
-
-    useEffect(() => {
-        const localGamerRaterUser = JSON.parse(
-            localStorage.getItem("gamer_rater_user")
-        ).token;
-        setCurrentUser(localGamerRaterUser);
-    }, []);
-
     return (
         <Routes>
             <Route
@@ -28,16 +19,11 @@ export const ApplicationViews = () => {
                 }
             >
                 <Route path="games">
-                    <Route
-                        index
-                        element={<AllGames userToken={currentUser} />}
-                    />
+                    <Route index element={<AllGames />} />
                     <Route path=":gameId">
-                        <Route
-                            index
-                            element={<GameDetail userToken={currentUser} />}
-                        />
+                        <Route index element={<GameDetail />} />
                         <Route path="review" element={<ReviewForm />} />
+                        <Route path="edit" element={<EditGameForm />} />
                     </Route>
                     <Route path="new" element={<NewGameForm />} />
                 </Route>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getGameDetail } from "../../services/gameService";
+import { getCategoryName, getGameDetail } from "../../services/gameService";
 import {
     Box,
     Button,
@@ -16,6 +16,7 @@ import { getReviewsByGameId } from "../../services/reviewService";
 export const GameDetail = () => {
     const [gameDetail, setGameDetail] = useState([]);
     const [gameReviews, setGameReviews] = useState([]);
+    const [categoryName, setCategoryName] = useState([]);
 
     const navigate = useNavigate();
     const { gameId } = useParams();
@@ -34,6 +35,17 @@ export const GameDetail = () => {
             });
         }
     }, [gameId]);
+
+    useEffect(() => {
+        const userToken = JSON.parse(
+            localStorage.getItem("gamer_rater_user")
+        ).token;
+        if (gameDetail.categories) {
+            getCategoryName(userToken, gameDetail?.categories).then((data) =>
+                setCategoryName([data])
+            );
+        }
+    }, [gameDetail.categories]);
 
     return (
         <Section>
@@ -63,7 +75,7 @@ export const GameDetail = () => {
                             </Text>
                             <Text>
                                 Categories:{" "}
-                                {gameDetail?.categories
+                                {categoryName
                                     ?.map((category) => category.label)
                                     .join(", ")}
                             </Text>
@@ -78,8 +90,14 @@ export const GameDetail = () => {
                             Review Game
                         </Button>
                         {gameDetail.is_owner ? (
-                            <Button ml="2" color="red">
-                                Edit Me
+                            <Button
+                                ml="2"
+                                color="red"
+                                onClick={() => {
+                                    navigate("edit", { state: gameDetail });
+                                }}
+                            >
+                                Edit Review
                             </Button>
                         ) : (
                             ""
@@ -102,11 +120,3 @@ export const GameDetail = () => {
         </Section>
     );
 };
-
-// Title
-// Designer
-// Year released
-// Number of players
-// Estimated time to play
-// Age recommendation
-// Categories

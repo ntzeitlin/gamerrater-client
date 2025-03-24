@@ -22,3 +22,15 @@ export const getGameDetail = async (token, gameid) => {
     const data = await response.json()
     return data
 }
+
+export const getCategoryName = async (token, categoryId) => {
+    const response = await fetch(`http://localhost:8000/categories/${categoryId}`, {
+        method: 'GET',
+        headers: {
+            "Authorization": `Token ${token}`,
+            "Content-Type": "application/json"
+        }
+    })
+    const data = await response.json()
+    return data
+}

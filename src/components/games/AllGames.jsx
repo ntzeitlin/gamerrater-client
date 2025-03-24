@@ -3,16 +3,18 @@ import { getAllGames } from "../../services/gameService";
 import { Box, Card, Container, Heading, Section, Text } from "@radix-ui/themes";
 import { Link } from "react-router-dom";
 
-export const AllGames = ({ userToken }) => {
+export const AllGames = () => {
     const [gameList, setGameList] = useState([]);
 
     useEffect(() => {
-        if (userToken) {
-            fetchAndSetGames();
-        }
-    }, [userToken]);
+        fetchAndSetGames();
+    }, []);
 
     const fetchAndSetGames = () => {
+        const userToken = JSON.parse(
+            localStorage.getItem("gamer_rater_user")
+        ).token;
+
         getAllGames(userToken).then((data) => {
             setGameList(data);
         });
