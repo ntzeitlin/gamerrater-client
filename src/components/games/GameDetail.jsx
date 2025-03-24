@@ -5,6 +5,7 @@ import {
     Button,
     Card,
     Container,
+    Flex,
     Grid,
     Heading,
     Section,
@@ -17,6 +18,7 @@ export const GameDetail = () => {
     const [gameDetail, setGameDetail] = useState([]);
     const [gameReviews, setGameReviews] = useState([]);
     const [categoryName, setCategoryName] = useState([]);
+    const [baseString, setBaseString] = useState("");
 
     const navigate = useNavigate();
     const { gameId } = useParams();
@@ -46,6 +48,38 @@ export const GameDetail = () => {
             );
         }
     }, [gameDetail.categories]);
+
+    const getBase64 = (file, callback) => {
+        const reader = new FileReader();
+        reader.addEventListener("load", () => callback(reader.result));
+        reader.readAsDataURL(file);
+    };
+
+    const createGameImageString = (event) => {
+        getBase64(event.target.files[0], (base64ImageString) => {
+            console.log("Base64 of file is", base64ImageString);
+
+            // Update a component state variable to the value of base64ImageString
+            setBaseString(base64ImageString);
+        });
+    };
+
+    const uploadImage = async () => {
+        await fetch("http://localhost:8000/pictures", {
+            method: "POST",
+            headers: {
+                Authorization: `Token ${
+                    JSON.parse(localStorage.getItem("gamer_rater_user")).token
+                }`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                game_id: gameId,
+                game_image: baseString,
+            }),
+        });
+        navigate(-1);
+    };
 
     return (
         <Section>
@@ -82,8 +116,30 @@ export const GameDetail = () => {
                                     ?.map((category) => category.label)
                                     .join(", ")}
                             </Text>
+                            <Box>
+                                Upload Picture:{" "}
+                                <input
+                                    type="file"
+                                    id="game_image"
+                                    onChange={createGameImageString}
+                                />
+                                <input
+                                    type="hidden"
+                                    name="game_id"
+                                    value={gameDetail.id}
+                                />
+                                <button
+                                    onClick={() => {
+                                        // Upload the stringified image that is stored in state
+                                        uploadImage();
+                                    }}
+                                >
+                                    Upload
+                                </button>
+                            </Box>
                         </Box>
                     </Grid>
+
                     <Box>
                         <Button
                             onClick={() => {
@@ -119,6 +175,16 @@ export const GameDetail = () => {
                         </Text>
                     </Card>
                 ))}
+                <Heading>Pictures:</Heading>
+                <Grid columns="3">
+                    {gameDetail?.pictures?.map((picture) => (
+                        <Card m="1" key={picture.id}>
+                            <Flex justify="center">
+                                <img width="100px" src={`${picture.picture}`} />
+                            </Flex>
+                        </Card>
+                    ))}
+                </Grid>
             </Container>
         </Section>
     );
