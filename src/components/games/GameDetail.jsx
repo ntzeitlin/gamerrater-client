@@ -41,7 +41,7 @@ export const GameDetail = () => {
             localStorage.getItem("gamer_rater_user")
         ).token;
         if (gameDetail.categories) {
-            getCategoryName(userToken, gameDetail?.categories).then((data) =>
+            getCategoryName(userToken, gameDetail?.categories[0]).then((data) =>
                 setCategoryName([data])
             );
         }
@@ -54,7 +54,10 @@ export const GameDetail = () => {
                 <Card key={gameDetail?.id} m="3">
                     <Grid columns="2">
                         <Box>
-                            <Heading>{gameDetail?.title}</Heading>
+                            <Heading>
+                                {gameDetail?.title} | Average Rating:{" "}
+                                {gameDetail?.average_rating}
+                            </Heading>
                             <Heading size="4">
                                 {gameDetail?.designer},{" "}
                                 {gameDetail?.year_released}
@@ -97,7 +100,7 @@ export const GameDetail = () => {
                                     navigate("edit", { state: gameDetail });
                                 }}
                             >
-                                Edit Review
+                                Edit Game
                             </Button>
                         ) : (
                             ""

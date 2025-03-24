@@ -1,4 +1,4 @@
-import { Container, Heading, Section } from "@radix-ui/themes";
+import { Container, Heading, Section, Slider } from "@radix-ui/themes";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
@@ -10,7 +10,7 @@ export const ReviewForm = () => {
     const initialReviewState = {
         game: gameId,
         comment: "",
-        rating: null,
+        rating: 5,
     };
 
     const [review, setReview] = useState(initialReviewState);
@@ -39,14 +39,25 @@ export const ReviewForm = () => {
 
     return (
         <Section>
-            <Container>
+            <Container width="50rem">
                 <form onSubmit={() => {}}>
                     <Heading>
                         Reviewing {gameTitle ? gameTitle : "Game"}
                     </Heading>
                     <fieldset>
-                        <label>Rating:</label>
-                        <input
+                        <Heading>Rating: {review.rating} </Heading>
+                        <Container>
+                            <Slider
+                                defaultValue={[review.rating]}
+                                max={[10]}
+                                onChange={(e) => {
+                                    const copy = { ...review };
+                                    copy.rating = e.target.value;
+                                    setReview(copy);
+                                }}
+                            />
+                        </Container>
+                        {/* <input
                             id="gamerating"
                             type="number"
                             min="0"
@@ -58,19 +69,23 @@ export const ReviewForm = () => {
                                 copy.rating = e.target.value;
                                 setReview(copy);
                             }}
-                        />
+                        /> */}
                     </fieldset>
                     <fieldset>
-                        <label>Rating:</label>
-                        <textarea
-                            id="gamerating"
-                            type="text"
-                            onChange={(e) => {
-                                const copy = { ...review };
-                                copy.comment = e.target.value;
-                                setReview(copy);
-                            }}
-                        />
+                        <label>Review:</label>
+                        <div>
+                            <textarea
+                                cols="93"
+                                rows="10"
+                                id="gamerating"
+                                type="text"
+                                onChange={(e) => {
+                                    const copy = { ...review };
+                                    copy.comment = e.target.value;
+                                    setReview(copy);
+                                }}
+                            />
+                        </div>
                     </fieldset>
                     <fieldset>
                         <button type="submit" onClick={submitReview}>

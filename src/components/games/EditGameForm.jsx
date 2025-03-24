@@ -41,7 +41,7 @@ export const EditGameForm = () => {
     const updateGame = async (evt) => {
         evt.preventDefault();
 
-        await fetch(`http://localhost:8000/games/${gameData.id}`, {
+        fetch(`http://localhost:8000/games/${gameData.id}`, {
             method: "PUT",
             headers: {
                 Authorization: `Token ${
@@ -51,7 +51,6 @@ export const EditGameForm = () => {
             },
             body: JSON.stringify(gameData),
         });
-
         navigate(-1);
     };
 
