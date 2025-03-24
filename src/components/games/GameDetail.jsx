@@ -131,7 +131,13 @@ export const GameDetail = () => {
                                 <button
                                     onClick={() => {
                                         // Upload the stringified image that is stored in state
-                                        uploadImage();
+                                        if (baseString) {
+                                            uploadImage();
+                                        } else {
+                                            window.alert(
+                                                "Choose a file to upload"
+                                            );
+                                        }
                                     }}
                                 >
                                     Upload
