@@ -78,7 +78,7 @@ export const GameDetail = () => {
                 game_image: baseString,
             }),
         });
-        navigate(-1);
+        navigate(0);
     };
 
     return (
