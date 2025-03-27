@@ -62,59 +62,61 @@ export const AllGames = () => {
     return (
         <Section>
             <Container>
-                <Box>
-                    <Flex align="center">
-                        <Heading size="2" mr="2">
-                            Search:
-                        </Heading>
-                        <input
-                            type="text"
-                            onChange={(e) => {
-                                setSearch(e.target.value);
-                            }}
-                        />
-                        <Button
-                            ml="2"
-                            size="1"
-                            onClick={() => {
-                                handleSearch();
-                            }}
-                        >
-                            Search
-                        </Button>
-                    </Flex>
-                </Box>
-                <Box>
-                    <Flex align="center">
-                        <Heading size="2" mr="2">
-                            Sort By:
-                        </Heading>
-                        <Select.Root
-                            onValueChange={(evt) => {
-                                handleSort(evt);
-                            }}
-                        >
-                            <Select.Trigger placeholder="Sort by..." />
-                            <Select.Content>
-                                <Select.Group>
-                                    <Select.Item value="title">
-                                        Title
-                                    </Select.Item>
-                                    <Select.Item value="year_released">
-                                        Year released
-                                    </Select.Item>
-                                    <Select.Item value="estimated_playtime">
-                                        Estimated Playtime
-                                    </Select.Item>
-                                    <Select.Item value="designer">
-                                        Designer
-                                    </Select.Item>
-                                </Select.Group>
-                            </Select.Content>
-                        </Select.Root>
-                    </Flex>
-                </Box>
                 <Heading>Games:</Heading>
+                <Flex gap="3" align="center" ml="3">
+                    <Box>
+                        <Flex align="center">
+                            <Heading size="2" mr="2">
+                                Sort By:
+                            </Heading>
+                            <Select.Root
+                                onValueChange={(evt) => {
+                                    handleSort(evt);
+                                }}
+                            >
+                                <Select.Trigger placeholder="Sort by..." />
+                                <Select.Content>
+                                    <Select.Group>
+                                        <Select.Item value="title">
+                                            Title
+                                        </Select.Item>
+                                        <Select.Item value="year_released">
+                                            Year released
+                                        </Select.Item>
+                                        <Select.Item value="estimated_playtime">
+                                            Estimated Playtime
+                                        </Select.Item>
+                                        <Select.Item value="designer">
+                                            Designer
+                                        </Select.Item>
+                                    </Select.Group>
+                                </Select.Content>
+                            </Select.Root>
+                        </Flex>
+                    </Box>
+                    <Box>
+                        <Flex align="center">
+                            <Heading size="2" mr="2">
+                                Search:
+                            </Heading>
+                            <input
+                                type="text"
+                                onChange={(e) => {
+                                    setSearch(e.target.value);
+                                }}
+                            />
+                            <Button
+                                ml="2"
+                                size="1"
+                                onClick={() => {
+                                    handleSearch();
+                                }}
+                            >
+                                Search
+                            </Button>
+                        </Flex>
+                    </Box>
+                </Flex>
                 {gameList?.map((game) => (
                     <Card key={game.id} m="3">
                         <Box>

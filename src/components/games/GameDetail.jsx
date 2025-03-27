@@ -81,6 +81,17 @@ export const GameDetail = () => {
         navigate(0);
     };
 
+    const handleDelete = async () => {
+        await fetch(`http://localhost:8000/games/${gameId}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Token ${
+                    JSON.parse(localStorage.getItem("gamer_rater_user")).token
+                }`,
+            },
+        }).then(() => navigate(-1));
+    };
+
     return (
         <Section>
             <Container>
@@ -130,7 +141,6 @@ export const GameDetail = () => {
                                 />
                                 <button
                                     onClick={() => {
-                                        // Upload the stringified image that is stored in state
                                         if (baseString) {
                                             uploadImage();
                                         } else {
@@ -145,29 +155,45 @@ export const GameDetail = () => {
                             </Box>
                         </Box>
                     </Grid>
-
-                    <Box>
-                        <Button
-                            onClick={() => {
-                                navigate("review", { state: gameDetail.title });
-                            }}
-                        >
-                            Review Game
-                        </Button>
-                        {gameDetail.is_owner ? (
+                    <Flex>
+                        <Box>
                             <Button
-                                ml="2"
-                                color="red"
                                 onClick={() => {
-                                    navigate("edit", { state: gameDetail });
+                                    navigate("review", {
+                                        state: gameDetail.title,
+                                    });
                                 }}
                             >
-                                Edit Game
+                                Review Game
                             </Button>
-                        ) : (
-                            ""
-                        )}
-                    </Box>
+                            {gameDetail.is_owner ? (
+                                <>
+                                    <Button
+                                        ml="2"
+                                        color="green"
+                                        onClick={() => {
+                                            navigate("edit", {
+                                                state: gameDetail,
+                                            });
+                                        }}
+                                    >
+                                        Edit Game
+                                    </Button>
+                                    <Button
+                                        color="red"
+                                        ml="2"
+                                        onClick={() => {
+                                            handleDelete();
+                                        }}
+                                    >
+                                        Delete Game
+                                    </Button>
+                                </>
+                            ) : (
+                                ""
+                            )}
+                        </Box>
+                    </Flex>
                 </Card>
                 <Heading>Reviews:</Heading>
                 {gameReviews.map((review) => (

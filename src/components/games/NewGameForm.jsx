@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 export const NewGameForm = () => {
     const initialGameState = {
         title: "",
-        year_released: 1990,
+        year_released: "1990",
         description: "",
         designer: "",
         number_of_players: 0,
@@ -40,7 +40,7 @@ export const NewGameForm = () => {
     const createGame = async (evt) => {
         evt.preventDefault();
 
-        await fetch("http://localhost:8000/games", {
+        const response = await fetch("http://localhost:8000/games", {
             method: "POST",
             headers: {
                 Authorization: `Token ${
@@ -51,7 +51,20 @@ export const NewGameForm = () => {
             body: JSON.stringify(game),
         });
 
-        navigate(`/games`);
+        const data = await response.json();
+
+        if (!response.ok) {
+            if (response.status === 400) {
+                window.alert(JSON.stringify(data));
+                return false;
+            } else {
+                window.alert(`Error: ${response.status}`);
+            }
+        }
+
+        if (response.ok) {
+            navigate(`/games`);
+        }
     };
 
     return (
