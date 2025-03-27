@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getCategoryName, getGameDetail } from "../../services/gameService";
+import { getGameDetail } from "../../services/gameService";
 import {
     Box,
     Button,
@@ -17,7 +17,6 @@ import { getReviewsByGameId } from "../../services/reviewService";
 export const GameDetail = () => {
     const [gameDetail, setGameDetail] = useState([]);
     const [gameReviews, setGameReviews] = useState([]);
-    const [categoryName, setCategoryName] = useState([]);
     const [baseString, setBaseString] = useState("");
 
     const navigate = useNavigate();
@@ -37,17 +36,6 @@ export const GameDetail = () => {
             });
         }
     }, [gameId]);
-
-    useEffect(() => {
-        const userToken = JSON.parse(
-            localStorage.getItem("gamer_rater_user")
-        ).token;
-        if (gameDetail.categories) {
-            getCategoryName(userToken, gameDetail?.categories[0]).then((data) =>
-                setCategoryName([data])
-            );
-        }
-    }, [gameDetail.categories]);
 
     const getBase64 = (file, callback) => {
         const reader = new FileReader();
@@ -123,7 +111,7 @@ export const GameDetail = () => {
                             </Text>
                             <Text>
                                 Categories:{" "}
-                                {categoryName
+                                {gameDetail?.category_details
                                     ?.map((category) => category.label)
                                     .join(", ")}
                             </Text>
